@@ -63,7 +63,11 @@
 };
 
 %define OSMOSDR_SWIG_BLOCK_MAGIC2(PKG, BASE_NAME)
+#ifdef BOOST_SHARED_PTR
 %template(BASE_NAME ## _sptr) boost::shared_ptr<PKG ## :: ## BASE_NAME>;
+#else
+%template(BASE_NAME ## _sptr) std::shared_ptr<PKG ## :: ## BASE_NAME>;
+#endif
 %pythoncode %{
 BASE_NAME ## _sptr.__repr__ = lambda self: "<gr_block %s (%d)>" % (self.name(), self.unique_id())
 BASE_NAME = BASE_NAME.make;
